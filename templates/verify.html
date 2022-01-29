@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification</title>
+    <style>
+        .krrr{
+            width: 60%;
+            margin: auto;
+            margin-top: 5%;
+            text-align: center;
+        }
+        input{
+            width: 50%;
+            height:  35px;
+            font-size: 18px;
+            border-radius: 8px;
+        }
+        button{
+            display: block;
+            width: 30%;
+            font-size: 16px;
+            margin: auto;  
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        @media(max-width:560px){
+            input{
+                width: 90%;
+                font-size: 15px;
+            }
+            button{
+                width: 50%;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form action="verifyacc/{{pid}}" method="POST">
+        {% csrf_token %}
+        <div class="krrr">
+        <input type="text" name="unamm" placeholder="Enter Username">
+        <button type="submit" >Verify</button> 
+    </div>
+    </form>
+</body>
+</html>

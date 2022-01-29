@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fb Clone</title>
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">Fb Clone</label>
+        <ul>
+          <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+              <label style="cursor: pointer;">Home</label></a></li>
+          <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+          <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          </ul>
+      </nav>
+      {% for message in messages %}
+    <div id="msbx" class="msgss">
+    <label class="msgs">{{ message }}</label>
+    <i id="msgp" onclick="closemsg()" class="fas fa-times" ></i>
+</div>
+    {% endfor %}
+      <form action="/reset_done/{{ pid }}" method="POST">
+      {% csrf_token %} 
+    <div class="logoo1">
+      <input type="password" name="passtk" placeholder="Enter new password">
+      <input type="password" name="cpass" placeholder="Confirm password">
+      <button id="lgnnn11" type="submit">Change Password</button>
+    </div>
+  </form>
+  
+</body>
+<script>
+  function closemsg(){
+    document.getElementById('msbx').style.display="none";
+  }
+</script>
+</html>

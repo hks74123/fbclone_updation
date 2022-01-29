@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fb Clone</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">Fb Clone</label>
+        <ul>
+          <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+              <label style="cursor: pointer;">Home</label></a></li>
+          <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+          <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          </ul>
+      </nav>
+    <div id="msbx" class="msgss" style="display: none;">
+    <label class="msgs" id="msgss">nothing</label>
+    <i id="msgp" onclick="closemsg(id)" class="fas fa-times" ></i>
+</div>
+  {% for message in messages %}
+  <div id="msbx1" class="msgss">
+    <label class="msgs" id="msgss">{{ message }}</label>
+    <i id="msgp1" onclick="closemsg(id)" class="fas fa-times" ></i>
+  </div>
+  {% endfor %}
+    
+      <form action="/verifymail/" method="POST" onsubmit="return false;">
+      {% csrf_token %}
+      <div class="lggg2" id="lggg2">
+        <div class="lggg111">
+    <h2>Fb Clone</h2>
+    <p>Fb Clone Connects you to the world and see what's happening out there</p>
+    </div>
+    
+    <div class="logoo1">
+      <input type="text" name="uname" id="uname" placeholder="Username">
+      <input type="password" name="upss" id="upss" placeholder="Password">
+      <input type="email" name="mmail" id="mails" placeholder="Email id">
+      <button id="lgnnn11" type="button">Verify mail</button>
+      <button class="buttonload" id="loadin_btn1" style="display: none;">
+        <i class="fa fa-refresh fa-spin"></i>Verifying...
+      </button> 
+      <div class="hksdabba">
+    </div>
+    </div>
+    </div>
+  </form>
+  
+
+</body>
+<script>
+  function closemsg(d){
+    if(d=='msgp1'){
+      document.getElementById('msbx1').style.display="none";
+    }
+    else{
+    document.getElementById('msbx').style.display="none";
+    }
+  }
+  function chns(dd){
+    if(dd=='lgnnn1'){
+      document.getElementById('lggg1').style.display="none";
+      document.getElementById('lggg2').style.display="";
+    }
+    if(dd=='lgnnn12'){
+      document.getElementById('lggg2').style.display="none";
+      document.getElementById('lggg1').style.display="block";
+    }
+  }
+</script>
+<script src="{% static 'set1.js' %}"></script>
+</html>

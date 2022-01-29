@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'postse.css' %}">
+    <link rel="stylesheet" href="{% static 'style4.css' %}">
+    
+    
+</head>
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">Fb Clone</label>
+        {% if user.is_authenticated %}
+        <ul>
+        <li>
+            <div>
+            <a href="/">
+                <i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+                <label style="cursor: pointer;">Home</label>
+            </a>
+            </div>
+        </li>
+        <li>
+            <a href="/cpost">
+            <i class="fas fa-upload" style="color: white !important;font-size: 22px !important;"></i>
+            <label style="cursor: pointer;">Post</label>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-bell" style="color: white !important;font-size: 25px !important;"></i>
+                <label style="cursor: pointer;">Notification</label>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+            <i class="fas fa-user-friends" style="color: white !important;font-size: 25px !important;"></i>
+            <label style="cursor: pointer;">Friends</label>
+            </a>
+        </li>
+        <!-- <li><a href="/showprofile">Profile</a></li> --> 
+        <div class="dropdown">
+            <button class="dropbtn" onclick="showprof()"><i class="fas fa-user-circle" style="color: white !important;font-size: 25px !important;"></i><label style="cursor: pointer;padding-left: 3px;">Account</label>
+            </button>
+            <div class="dropdown-content" id="dropdown-content">
+              <a href="/showprofile"><i class="fas fa-user-circle"></i> Profile</a>
+              <a href="/mposts"><i class="fas fa-upload"></i> My Posts</a>
+              <a href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+            </div>
+          </div>     
+    </ul>
+    
+        {% else %}
+        <ul>
+            <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+                <label style="cursor: pointer;">Home</label></a></li>
+            <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i> <label style="cursor: pointer;">People</label></a></li>
+            <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
+            <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
+            </ul>
+        {% endif %}
+    </nav>
+    {% for message in messages %}
+    <div class="msgss">
+    <label class="msgs">{{ message }}</label>
+    <i id="msgp" class="fas fa-times" ></i>
+</div>
+    {% endfor %}
+      {% for p in psts %}
+    <div class="post">
+        <div class="prf">
+            {% if p.profile.imgp %}
+            <div class="p" style="background-image: url('{{ p.profile.imgp.url }}');"></div>
+            {% else %}
+        <div class="p1"></div>
+        {% endif %}
+        <label id="nm">{{ p.username }}</label>
+        <label id="tsm">{{ p.time_creat }}</label>
+        </div>
+        <p>{{ p.about }}</p>
+        {% if p.img %}
+        <div class="imggg"> 
+        <img src="{{ p.img.url }}" height="390px" width="90%">
+        <div class="lin"></div> 
+        <div id="inff" class="inforr">
+            <form action="likein" class="likecc" method="POST">
+                {% csrf_token %}
+                <input id="pppp{{ p.id }}" type="hidden" name="idele" >
+                <button class="likewala" type="submit">
+                {% if user not in p.liked.all %}
+                <i class="fas fa-thumbs-up" id="up{{ p.id }}" onclick="myFunction('{{ p.id }}')"></i>
+                {% else %}
+                <i onclick="myFunction('{{ p.id }}')" class="fas fa-thumbs-down" id="dwn{{ p.id }}"></i>
+                {% endif %}
+            </button>
+            </form>
+            <i onclick="comment12('{{ p.id }}')" class="fas fa-comment"></i>
+            <i class="fas fa-share"></i>
+            <label id="likes">{{ p.liked.all.count }}Likes</label>
+            <label id="comm">Comments</label>
+            <label id="share">share</label>
+            <div class="lin"></div>
+        </div>
+        
+    </div>
+    {% else %}
+    <div class="imggg">
+        <div id="inff" class="inforr">
+            <form action="likein" class="likecc" method="POST">
+                {% csrf_token %}
+                <input id="pppp{{ p.id }}" type="hidden" name="idele" >
+                <button class="likewala" type="submit">
+                    {% if user not in p.liked.all %}
+                    <i class="fas fa-thumbs-up" id="up{{ p.id }}" onclick="myFunction('{{ p.id }}')"></i>
+                    {% else %}
+                    <i onclick="myFunction('{{ p.id }}')" class="fas fa-thumbs-down" id="dwn{{ p.id }}"></i>
+                    {% endif %}
+            </button>
+            </form> 
+            <i id="hl{{ forloop.counter }}" onclick="comment12('{{ p.id }}')" class="fas fa-comment" ></i>
+            <i class="fas fa-share"></i>
+            <label id="likes">{{ p.liked.all.count }}Likes</label>
+            <label id="comm">Comments</label>
+            <label id="share">share</label>
+            <div class="lin"></div>
+        </div>
+    
+    </div>
+    {% endif %}
+    <form action="dpost" method="POST">
+        {% csrf_token %}
+        <input id="hdneee{{ p.id }}" type="hidden" name="idele" >
+        <button id="dbtnnn{{ forloop.counter }}" onclick="de1('{{ p.id }}')" class="dbtnn">Delete Post</button>
+    </form> 
+      <div id="ctrrr{{ p.id }}" class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+                <div class="d-flex flex-column comment-section">
+                    
+                    <div class="bg-white p-2">
+                        <div class="d-flex flex-row user-info">
+                            <i id="cut" onclick="cutcomm('{{ p.id }}')" class="fas fa-times" ></i>
+                            {% if p.comments.all %}
+                            {% for comment in p.comments.all %}
+                            <div class="d-flex flex-column justify-content-start ml-2">
+                              <span class="d-block font-weight-bold name">{{ comment.nam }}</span>
+                              <span class="date text-black-50">{{ comment.date_added }}</span>
+
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <p class="comment-text">{{ comment.body }}</p>
+                            
+                            
+                        </div> 
+                        {% ifnotequal comment.nam request.user.username %}
+                              <input id="hdksss" type="hidden" name="idele" >
+                              <div class="lin"></div>
+                              {% else %}
+                              <form action="dcomme" method="POST"> 
+                                {% csrf_token %}
+                                <input id="hdneeee{{ comment.id }}" type="hidden" name="idele" >
+                                <button id="dbtnnnn{{ forloop.counter }}" type="submit" class="delecm" onclick="de('{{ comment.id }}')">Delete comment</button>
+                            </form>
+                            <div class="lin"></div>
+                            
+                            {% endifnotequal %}
+                        {% endfor %}
+
+                    </div>
+                    
+                    <form action="addcom" method="POST">
+                        {% csrf_token %}
+                    <div class="bg-light p-2">
+                        <div class="d-flex flex-row align-items-start"><textarea class="form-control ml-1 shadow-none textarea" name="hereis"></textarea></div>
+                        <div class="mt-2 text-right">
+                          <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                          <input id="hdnee{{ p.id }}" type="hidden" name="idele" >
+                          <button id="sbtnn" class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button" onclick="cutcomm('{{ p.id }}')">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+                {% else %}
+                </div>
+                </div>
+                </div>
+                <form action="addcom" method="POST">
+                    {% csrf_token %}
+                <div class="bg-light p-2">
+                    <div class="d-flex flex-row align-items-start"><textarea class="form-control ml-1 shadow-none textarea" name="hereis"></textarea></div>
+                    <div class="mt-2 text-right">
+                      <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                      <input id="hdnee{{ p.id }}" type="hidden" name="idele" >
+                      <button id="sbtnn" class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button" onclick="cutcomm('{{ p.id }}')">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+
+                </div>
+            </div>
+            </div>
+            </div>
+        
+            {% endfor %}
+        
+</body>
+<script>
+    click_no=1;
+    kkkkk="{{ lnt }}"
+    dholaa="{{ le }}" 
+    d=-1
+    function closemsg(){
+    document.getElementById('msbx').style.display="none";
+  }
+    if(dholaa==1){ 
+        ii=1;
+        for(ii=1;ii<=kkkkk;ii++){
+            document.getElementById('dbtnnn'+ii).style.display="block";
+        }
+    }
+   
+    function de(xyz){
+        document.getElementById(`hdneeee${xyz}`).value=xyz;
+    }
+    function de1(xzy){
+        document.getElementById(`hdneee${xzy}`).value=xzy;
+    }
+    function myFunction(x) {
+        document.getElementById(`pppp${x}`).value=x;
+        
+    }
+    function comment12(xxx){
+      document.getElementById(`ctrrr${xxx}`).style.display="block";
+      document.getElementById(`hdnee${xxx}`).value=xxx;
+    }
+    function cutcomm(yyy){
+      document.getElementById(`ctrrr${yyy}`).style.display="none";
+    }
+    function showprof(){
+        click_no=click_no+1;
+        if(click_no%2==0){
+            document.getElementById('dropdown-content').style.display='block';
+        } 
+        else{
+            document.getElementById('dropdown-content').style.display='';
+        }
+    }
+</script>
+</html>
+
+  

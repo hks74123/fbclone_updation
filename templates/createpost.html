@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'cpost.css' %}">
+
+</head>
+
+<body>
+  <nav>
+    <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">Fb Clone</label>
+        {% if user.is_authenticated %}
+        <ul>
+          <li>
+              <div>
+              <a href="/">
+                  <i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+                  <label style="cursor: pointer;">Home</label>
+              </a>
+              </div>
+          </li>
+          <li>
+              <a href="/cpost">
+              <i class="fas fa-upload" style="color: white !important;font-size: 22px !important;"></i>
+              <label style="cursor: pointer;">Post</label>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+                  <i class="fas fa-bell" style="color: white !important;font-size: 25px !important;"></i>
+                  <label style="cursor: pointer;">Notification</label>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+              <i class="fas fa-user-friends" style="color: white !important;font-size: 25px !important;"></i>
+              <label style="cursor: pointer;">Friends</label>
+              </a>
+          </li>
+          <!-- <li><a href="/showprofile">Profile</a></li> --> 
+          <div class="dropdown">
+              <button class="dropbtn" onclick="showprof()"><i class="fas fa-user-circle" style="color: white !important;font-size: 25px !important;"></i><label style="cursor: pointer;padding-left: 3px;">Account</label>
+              </button>
+              <div class="dropdown-content" id="dropdown-content">
+                <a href="/showprofile"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="/mposts"><i class="fas fa-upload"></i> My Posts</a>
+                <a href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+              </div>
+            </div>     
+      </ul>
+        {% else %}
+        <ul>
+          <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+              <label style="cursor: pointer;">Home</label></a></li>
+          <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+          <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
+          </ul>
+        {% endif %}
+  </nav>
+  {% for message in messages %}
+    <div id="msbx" class="msgss">
+    <label class="msgs">{{ message }}</label>
+    <i id="msgp" onclick="closemsg()" class="fas fa-times" ></i>
+</div>
+    {% endfor %}
+  <form action="addpost" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="post">
+        <div class="prf">
+            <div class="p"></div>
+            <label id="nm">{{ user.username }}</label>
+            <label id="tsm">{{ times }}</label>
+        </div>
+        <div class="abt">
+        
+        <label id="abtt">About...</label>
+        <textarea id="aboutle" name="aboutde"></textarea>
+        <div id="upload-container">
+            <div id="upload-border">
+              <nobr>
+                <input type="text" id="upload-name" disabled="true" />
+                <button id="upload-button" type="button">Select photo</button>
+              </nobr>
+            </div>
+            <input type="file" id="hidden-upload" name="imgle" style="display:none"/>
+            <button id="upls" type="submit">Post</button>
+          </div>
+    </div>
+    </div>
+  </form>
+</body>
+<script>
+    document.querySelector("#upload-button").addEventListener("click", () => {
+  //clicks on the file input
+  document.querySelector("#hidden-upload").click();
+});
+
+//adds event listener on the hidden file input to listen for any changes
+document.querySelector("#hidden-upload").addEventListener("change", (event) => {
+  //gets the file name
+  document.querySelector("#upload-name").value = event.target.files[0].name;
+});
+function closemsg(){
+    document.getElementById('msbx').style.display="none";
+  }
+</script>
+</html>

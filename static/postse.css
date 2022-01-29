@@ -1,0 +1,154 @@
+body{
+    background: #f0f2f5;
+}
+.p1{
+    float: left;
+    background-image:url("/static/images/Koala.jpg");
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-top: 4px;
+}
+.p{
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-top: 4px; 
+}
+#nm{
+    display: inline-block;
+    font-size: 18px;
+    padding: 8px;
+    padding-bottom: 0px;
+}
+#tsm{
+    display: block;
+    font-size: 13px;
+    margin-top: 0px;
+    padding-left: 58px; 
+}
+.post{
+    background: white;
+    width: 440px;
+    /* height: 690px; */
+    margin: auto;
+    margin-top: 1%;
+}
+.post p{
+    padding-top: 20px;
+    padding-left: 5px;
+    padding-bottom: 8px;
+
+}
+img{
+    background-size: cover;
+    border-radius: 5px;
+    padding-left: 5%;
+}
+.lin{
+    width: 100%;
+    margin: auto;
+    height: 1px;
+    background: #cbcdcf;
+    margin-top: 10px;
+}
+.fa-thumbs-up{
+    font-size: 26px;
+  cursor: pointer;
+  user-select: none;
+}
+.fa-thumbs-up:hover{
+    color: #007bff;
+}
+
+.fa-thumbs-down{
+    font-size: 26px;
+  cursor: pointer;
+  user-select: none;
+  
+}
+.fa-thumbs-down:hover{
+    color: #007bff;
+}
+
+.fa-comment{
+    font-size: 26px;
+    cursor: pointer;
+  user-select: none;
+  margin-top: 12px;
+  margin-left: 30%;
+}
+.fa-comment:hover{
+    color: #007bff;
+}
+.fa-share{
+    font-size: 28px;
+    cursor: pointer;
+  user-select: none;
+  margin-top: 12px;
+  margin-left: 30%;
+}
+.fa-share:hover{
+    color: #007bff;
+}
+#likes{
+    margin-left: 5%;
+}
+#comm{
+    margin-left: 23%; 
+}
+#share{
+    margin-left: 22%;
+}
+.stsp{
+    width: 95%;
+    margin: auto;
+    margin-top: 0px;
+    background: #f0f2f5;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+.cmm{
+    margin-top: 8px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.likecc{
+    display: inline;
+}
+.likewala{
+    margin-top: 12px;
+margin-left: 6%;
+margin-bottom: 5px;
+background: white;
+border: none;
+}
+
+@media(max-width:550px){
+    .post{
+        width: 88%;
+    }
+    #likes{
+        margin-left: 6%;
+    }
+    #comm{
+        margin-left: 21%;
+    }
+    #share{
+        margin-left: 23%;
+    }
+}
+@media(max-width:420px){
+    .post{
+        width: 95%;
+        margin-top: 3%;
+    }
+    #share{
+        margin-left: 18%;
+        
+    }
+}

@@ -1,0 +1,196 @@
+body {
+    background: #eee
+}
+
+.date {
+    font-size: 11px;
+    padding-left: 5px;
+}
+
+.comment-text {
+    font-size: 15px
+}
+
+.fs-12 {
+    font-size: 12px
+}
+
+.shadow-none {
+    box-shadow: none
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor:hover {
+    color: blue
+}
+
+.cursor {
+    cursor: pointer
+}
+
+.textarea {
+    width: 85%;
+    resize: none;
+    margin-left: 5px;
+    margin-top: 10px
+}
+.mt-5{
+    display: none;
+    position: fixed;
+    width: 65%;
+    margin: auto;
+    background: white;
+    z-index: 1;
+    margin-left: -10%;
+    bottom: 0;
+
+}
+.fa-times{
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    padding-right: 12px;
+    padding-top: 5px;
+}
+.mt-2{
+    width: 95%;
+    padding-left: 5px;
+    /* margin-bottom: 15px; */
+    padding-bottom: 10px;
+}
+.justify-content-start{
+    padding-left: 5px;
+}
+.btn-primary{
+    width: 20%;
+    height: 30px;
+    margin-top: 5px;
+    background: #007bff;
+    color: white;
+    font-size: 15px;
+    border: #007bff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn-outline-primary{
+    width: 20%;
+    height: 30px;
+    margin-top: 5px;
+    color: #007bff;
+    background: white;
+    border: 1.5px solid #007bff;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn-primary:hover{
+    background: #0a4c92;
+    color: white;
+    border: 1.5px solid #007bff;
+}
+.btn-outline-primary:hover{
+    background: #007bff;
+    color: white;
+}
+.bfrm{
+    display: inline;
+}
+.btn-success1{
+    display: inline;
+    border: none;
+    outline: none;
+    background: white;
+    margin-top: 12px;
+  margin-left: 30%;
+  margin-bottom: 5px;
+}
+
+.dbtnn{
+    display: none;
+    background: #1b9bff;
+    color: white;
+    width: 75%;
+    font-size: 14px;
+    height: 34px;
+    margin: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.dbtnn:hover{
+    background: #0a4c92;
+}
+
+.msgss{
+    width: 75%;
+    background: lightyellow;
+}
+#msgp{
+    float: right;
+}
+
+.delecm{
+    background: #1b9bff;
+    color: white;
+    width:21%;
+    font-size: 14px;
+    height: 25px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+@media(max-width:800px){
+    .mt-5{
+        width: 80%;
+}
+}
+
+@media(max-width:700px){
+    .mt-5{
+        margin-left: -6%;
+        width: 85%;
+
+    }
+    .delecm{
+        width: 30%;
+    }
+
+    .btn-primary,.btn-outline-primary{
+        width: 110px;
+    }
+}
+
+@media(max-width:560px){
+    .mt-5{
+        margin-left: -2%;
+        width: 90%;
+    }
+    .delecm{
+        width: 40%;
+        font-size: 13px;
+    }
+}
+
+
+@media(max-width:330px){
+    #comm{
+        margin-left: 18%;
+    }
+    #share{
+        margin-left: 17%;
+    }
+}
+@media(max-width:310px){
+    #comm{
+        margin-left: 17%;
+    }
+    #share{
+        margin-left: 15%;
+    }
+}
+
+
+

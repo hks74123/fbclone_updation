@@ -1,0 +1,201 @@
+
+.pfpic{
+    display: block;
+    text-align: center;
+margin-top: 2%;
+}
+img{
+    border-radius: 50%;
+}
+.detlas{
+    display: block;
+    width: 50%;
+    margin: auto;
+    margin-left: 32%;
+}
+.user_name, .Email,.fburl{
+    width: 70%;
+    height: 8px;
+    font-size: 18px;
+    /* margin-top: 4%; */
+    border-radius: 5px;
+    border: 1px solid #cbcdcf;
+    padding: 14px 16px; 
+    
+}
+.name{
+    width: 35%; 
+    height: 8px;
+    font-size: 18px;
+    /* margin-top: 4%; */
+    border-radius: 5px;
+    border: 1px solid #cbcdcf;
+    padding: 14px 16px;
+}
+.fburl{
+    margin-top: 0px;;
+}
+.nlable{
+    display: block;
+    font-size: 19px;
+    margin-top: 13px;
+}
+#btnup{
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    width: 15%;
+    height: 40px;
+    margin: auto;
+    font-size: 15px;
+    margin-top: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.udatebtn{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+#btnup1{
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    width: 15%;
+    height: 40px;
+    margin: auto;
+    font-size: 15px;
+    margin-top: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#btnup:hover,#btnup1:hover{
+    background: #2077C9;
+}
+
+#upload-container{
+    display: none;
+  }
+  #upload-border{
+    height:30px;
+    border:1px solid #2077C9;
+    display:inline-block;
+    padding-left:7px;
+    margin:20px 0;
+  }
+  
+  #upload-name{
+    height:70%;
+    border:none;
+  
+  }
+  
+  #upload-button{
+    height:100%;
+    padding:0 20px;
+    border:none;
+    background:#2077C9;
+    color:white;
+    cursor:pointer;
+  }
+  
+  #upload-name:focus, #upload-button:focus{
+    outline:none;
+  }
+  #upls{
+      display: block; 
+      width: 35%;
+      height:28px;
+      margin: auto;
+      font-size: 17px;
+    padding:0 20px;
+    border:none;
+    background:#2077C9;
+    color:white;
+    cursor:pointer;
+    border-radius: 8px;
+  }
+
+  .fmss{
+    display: inline;
+  }
+  #btnup2{
+      display: none;
+      background: #007bff;
+    color: white;
+    width: 15%;
+    height: 40px;
+    margin: auto;
+    font-size: 15px;
+    margin-top: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  #btnup4{
+    display: none;
+    background: #007bff;
+  color: white;
+  width: 15%;
+  height: 40px;
+  margin: auto;
+  font-size: 15px;
+  margin-top: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#szeist{
+  display: none;
+  color: red;
+}
+@media(max-width:1000px){
+  .detlas{
+    width: 70%;
+    margin-left: 26%;
+  }
+}
+@media(max-width:800px){
+  .detlas{
+    width: 80%;
+  }
+  .user_name, .Email,.fburl{
+    width: 80%;
+  }
+  .pfpic{
+    margin-top: 8%;
+  }
+.name{
+  width: 39%;}
+}
+@media(max-width:560px){
+  .detlas{
+    width: 90%;
+    margin-left: 10%;
+  }
+}
+@media(max-width:450px){
+  .detlas{
+    background: #f0f2f5;
+    width: 97%;
+    margin-left: 0px;
+    margin: auto;
+    margin-top: 6%;
+  }
+  .user_name, .Email,.fburl{
+    width: 99%;
+    font-size: 15px;
+  }
+.name{
+  width: 49%;
+  font-size: 15px;
+}
+.pfpic{
+  margin-top: 8%;
+}
+#btnup,#btnup1{
+  width: 25%;
+}
+#btnup2,#btnup4{
+  width: 25%;
+}
+}

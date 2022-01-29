@@ -1,0 +1,275 @@
+body{
+    background: #f0f2f5;
+}
+.lggg1{
+    display: none;
+}
+h2{
+    /* text-align: center; */
+    color: #1877F2;
+    margin-top: 8%;
+    font-size: 50px;
+}
+h3{
+    font-size: 25px;
+    text-align: right;
+    color: black;
+    margin-right: 19%;
+    margin-top: 19%;
+}
+.lggg112, .lggg111{
+    display: inline-block;
+    width: 38%;
+    margin-top: 10%;
+    margin-left: 8%;
+}
+
+.logoo1{
+    /* display: inline-block; */
+    float: right;
+    text-align: center;
+    width: 390px;
+    background: white;
+    /* margin: auto; */
+    margin-top: 9%;
+    border-radius: 10px;
+    margin-right: 8%;
+}
+
+.logoo1 input{
+    width: 85%;
+    height: 45px;
+    font-size: 18px;
+    margin-top: 4%;
+    border-radius: 5px;
+    border: 1px solid #cbcdcf;
+    padding: 14px 16px;
+}
+#lgnnn11{
+    width: 85%;
+    height: 40px;
+    background:#1877F2;
+    color: white;
+    font-size: 24px;
+    border-radius: 8px;
+    margin-top: 6%;
+    border-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+.linn1{
+    width: 85%;
+    height: 1px;
+    background: #cbcdcf;
+    margin: auto;
+    margin-top: 8%;
+}
+#lgnnn12{
+    width: 55%;
+    height: 40px;
+    background:rgb(54, 164, 32);
+    color: white;
+    font-size: 20px;
+    border-radius: 8px;
+    margin-top: 5%;
+    border-color: rgb(54, 164, 32);
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+
+
+.lggg111, .lggg112 p{
+    /* margin-top: 2%; */
+    text-align: justify;
+    font-size: 22px;
+}
+.logoo{
+    /* display: inline-block; */
+    float: right;
+    text-align: center;
+    width: 480px;
+    background: white;
+    /* margin: auto; */
+    margin-top: 5%;
+    border-radius: 10px;
+    margin-right: 8%;
+}
+.name{
+    width: 42%;
+    height: 38px;
+    font-size: 18px;
+    margin-top: 4%;
+    border-radius: 5px;
+    border: 1px solid #cbcdcf;
+    padding: 14px 16px;
+}
+.user_name, .Email, .pass{
+    width: 85%;
+    height: 38px;
+    font-size: 18px;
+    margin-top: 4%;
+    border-radius: 5px;
+    border: 1px solid #cbcdcf;
+    padding: 14px 16px;
+}
+#lgnnn{
+    width: 85%;
+    height: 38px;
+    background:#1877F2;
+    color: white;
+    font-size: 23px;
+    border-radius: 8px;
+    margin-top: 4%;
+    border-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+.linn{
+    width: 85%;
+    height: 1px;
+    background: #cbcdcf;
+    margin: auto;
+    margin-top: 6%;
+}
+#lgnnn1{
+    width: 55%;
+    height: 38px;
+    background:rgb(54, 164, 32);
+    color: white;
+    font-size: 20px;
+    border-radius: 8px;
+    margin-top: 4%;
+    border-color: rgb(54, 164, 32);
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+
+.fg_ps{
+    color: #1877F2;
+    text-decoration: none;
+    cursor: pointer;
+}
+.fg_ps:hover{
+    background: none !important;
+    text-decoration: underline !important;
+}
+.hksdabba{
+    margin-top: 20px;
+}
+
+.hksdabba1{
+    margin-top: 20px;
+}
+
+.buttonload {
+    width: 85%;
+    height: 38px;
+    background:#1877F2;
+    color: white;
+    font-size: 23px;
+    border-radius: 8px;
+    margin-top: 4%;
+    border-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    cursor: pointer;
+  }
+
+@media(max-width:1070px){
+    h2{
+        text-align: center;
+        font-size: 35px;
+    }
+    
+    .lggg112{
+        display: block;
+        width: 60%;
+        margin: auto;
+        margin-top: 8%;
+    }
+    .lggg112 p{
+        font-size: 18px;
+    }
+    .logoo{
+        display: block;
+        float: none;
+        margin: auto;
+        margin-top: 8%;
+    }
+}
+@media(max-width:890px){
+    h3{
+        /* text-align: center; */
+        margin-top: 6%;
+    }
+}
+@media(max-width:650px){
+    .logoo{
+        width: 90%;
+        margin-top: 13%;
+    }
+    .lggg112{
+        width: 92%;
+    }
+    .name{
+        width: 46%;
+        height: 34px;
+    }
+    .user_name, .Email, .pass{
+        width: 91%;
+        height: 34px;
+    }
+    #lgnnn{
+        width: 90%;
+        height: 34px;
+    }
+    #lgnnn1{
+        width: 60%;
+        height: 34px;
+    }
+}
+
+
+
+@media(max-width:900px){
+    h2{
+        text-align: center;
+        font-size: 35px;
+    }
+    .lggg111{
+        display: block;
+        width: 80%;
+        margin: auto;
+        margin-top: 8%;
+    }
+    .lggg111 p{
+        font-size: 18px;
+    }
+    .logoo1{
+        display: block;
+        float: none;
+        margin: auto;
+        margin-top: 8%;
+    }
+}
+@media(max-width:450px){
+    .logoo1{
+        width: 90%;
+        margin-top: 15%;
+    }
+    .lggg111{
+        width: 92%;
+    }
+    .logoo1 input{
+        width: 90%;
+        height: 38px;
+        font-size: 18px;
+    }
+    #lgnnn11{
+        width: 90%;
+        height: 40px;
+    }
+    #lgnnn12{
+        width: 60%;
+        height: 38px;
+    }
+}

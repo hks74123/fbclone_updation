@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'prf.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  
+</head>
+<body>
+  <nav>
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+      <i class="fas fa-bars"></i>
+    </label>
+    <label class="logo">Fb Clone</label>
+    {% if user.is_authenticated %}
+    <ul>
+      <li>
+          <div>
+          <a href="/">
+              <i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+              <label style="cursor: pointer;">Home</label>
+          </a>
+          </div>
+      </li>
+      <li>
+          <a href="/cpost">
+          <i class="fas fa-upload" style="color: white !important;font-size: 22px !important;"></i>
+          <label style="cursor: pointer;">Post</label>
+          </a>
+      </li>
+      <li>
+          <a href="#">
+              <i class="fas fa-bell" style="color: white !important;font-size: 25px !important;"></i>
+              <label style="cursor: pointer;">Notification</label>
+          </a>
+      </li>
+      <li>
+          <a href="#">
+          <i class="fas fa-user-friends" style="color: white !important;font-size: 25px !important;"></i>
+          <label style="cursor: pointer;">Friends</label>
+          </a>
+      </li>
+      <!-- <li><a href="/showprofile">Profile</a></li> --> 
+      <div class="dropdown">
+          <button class="dropbtn" onclick="showprof()"><i class="fas fa-user-circle" style="color: white !important;font-size: 25px !important;"></i><label style="cursor: pointer;padding-left: 3px;">Account</label>
+          </button>
+          <div class="dropdown-content" id="dropdown-content">
+            <a href="/showprofile"><i class="fas fa-user-circle"></i> Profile</a>
+            <a href="/mposts"><i class="fas fa-upload"></i> My Posts</a>
+            <a href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+          </div>
+        </div>     
+  </ul>
+    {% else %}
+    <ul>
+      <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
+          <label style="cursor: pointer;">Home</label></a></li>
+      <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+      <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
+      <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
+      </ul>
+    {% endif %}
+  </nav> 
+     {% for pp in prfde %}
+      <div class="prffff">
+          <div class="pfpic">
+            {% if pp.imgp %}
+            <img src="{{ pp.imgp.url }}" height="130px" width="130px">
+            {% else %}
+            <img src="{% static 'images/koala.jpg' %}" height="130px" width="130px">
+            {% endif %}
+            <form action="saveupdate" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <label id="szeist">Please provide image of size "66x60"</label>
+            <div id="upload-container">
+              <div id="upload-border">
+                <nobr>
+                  <input type="text" id="upload-name" disabled="true" />
+                  <button id="upload-button" type="button">Change Image</button>
+                </nobr> 
+              </div>
+              <input type="file" id="hidden-upload" name="imgle" style="display:none"/>
+            </div>
+          </div>
+          <div class="detlas">
+            <label class="nlable">Name:</label>
+            <input id="first_name" class="name" type="text" name="f_name" placeholder="First Name" value="{{ pp.fstname }}" disabled>
+            <input id="last_name" class="name" type="text" name="l_name" placeholder="Last Name" value="{{ pp.secname }}" disabled>
+            <label class="nlable">Username:</label>
+            <input id="user_name" class="user_name" type="text" name="u_name" placeholder="Username" value="{{ pp.u_nm }}" disabled>
+            <label class="nlable">Email:</label>
+            <input id="mails" class="Email" type="email" name="mmail" placeholder="Email" value="{{ pp.terimail }}" disabled>
+            <label class="nlable">Fb url:</label>
+            <input id="fburl" class="fburl" name="mmail" placeholder="Fb url" value="{{ pp.fbacc }}" disabled>
+          </div>
+      </div>
+      {% endfor %}
+      <div class="udatebtn">
+        <button id="btnup2" type="submit">Save</button>
+        <button id="btnup4" onclick="callcancel()" type="button">Cancel</button>
+        </form>
+        <button id="btnup" onclick="callsave()">Update</button>
+        <form class="fmss" action="logout" method="POST">
+          {% csrf_token %}
+        <button id="btnup1" type="submit">Logout</button>
+      </form>
+      </div>
+</body>
+<script>
+  x=document.getElementById('first_name').value
+  y=document.getElementById('last_name').value
+  b= document.getElementById('fburl').value
+  
+  document.querySelector("#upload-button").addEventListener("click", () => {
+  //clicks on the file input
+  document.querySelector("#hidden-upload").click();
+  })
+
+  document.querySelector("#hidden-upload").addEventListener("change", (event) => {
+  //gets the file name
+  document.querySelector("#upload-name").value = event.target.files[0].name;
+});
+
+  function callcancel(){
+    document.getElementById('btnup').style.display='inline-block';
+    document.getElementById('btnup2').style.display='none';
+    document.getElementById('btnup4').style.display='none';
+    document.getElementById('upload-container').style.display="none";
+    document.getElementById('szeist').style.display="none";
+
+    document.getElementById('first_name').disabled=true
+    document.getElementById('last_name').disabled=true
+    document.getElementById('fburl').disabled=true
+
+    document.getElementById('first_name').value=x
+    document.getElementById('last_name').value=y
+    document.getElementById('fburl').value=b
+  }
+  function callsave(){
+    document.getElementById('btnup').style.display='none';
+    document.getElementById('btnup2').style.display='inline-block';
+    document.getElementById('btnup4').style.display='inline-block';
+    document.getElementById('upload-container').style.display="block";
+    document.getElementById('szeist').style.display="block";
+
+    document.getElementById('first_name').disabled=false
+    document.getElementById('last_name').disabled=false
+    document.getElementById('fburl').disabled=false
+    
+  }
+</script>
+</html>
