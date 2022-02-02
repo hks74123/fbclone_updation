@@ -76,27 +76,29 @@
     <i id="msgp" onclick="closemsg()" class="fas fa-times" ></i>
 </div>
     {% endfor %}
-  <form action="/addpost" method="POST" enctype="multipart/form-data">
+    <div class="other_options">
+      <a href="/show_groups/" class="same_as">Dicover Group</a>
+      <a href="/my_groups/" class="same_as">My Groups</a>
+  </div>
+  <form action="/done_group/" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="post">
-        <div class="prf">
-            <div class="p"></div>
-            <label id="nm">{{ user.username }}</label>
-            <label id="tsm">{{ times }}</label>
-        </div>
-        <div class="abt">
-        
-        <label id="abtt">About...</label>
-        <textarea id="aboutle" name="aboutde"></textarea>
+        <div class="abt11">
+        <label style="font-size: 17px;">Please choose unique name for the group...</label><br>
+        <input type="text" placeholder="Group name" name="gname" style="width: 60%; font-size: 19px;margin-top: 15px;"><br>
+        <input type="checkbox" name="private" value="private" style="margin-top: 10px;text-align: left !important;cursor: pointer;">
+        <label>Private Group</label><br>
+        <input type="checkbox" name="Public" value="public" style="margin-top: 10px;text-align: left !important;cursor: pointer;">
+        <label>Public Group</label>
         <div id="upload-container">
             <div id="upload-border">
               <nobr>
                 <input type="text" id="upload-name" disabled="true" />
-                <button id="upload-button" type="button">Select photo</button>
+                <button id="upload-button" type="button">Select Group pic</button>
               </nobr>
             </div>
             <input type="file" id="hidden-upload" name="imgle" style="display:none"/>
-            <button id="upls" type="submit">Post</button>
+            <button id="upls" type="submit">Create group</button>
           </div>
     </div>
     </div>

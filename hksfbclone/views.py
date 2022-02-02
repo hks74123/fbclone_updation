@@ -443,8 +443,246 @@ def verifymail(request):
 
 def friends(request):
     if request.user.is_authenticated:
+        user_prof=profile_details.objects.get(user=request.user)
+        sent_req=friend_request.objects.filter(from_user=user_prof)
+        req=[]
+        for rq in sent_req:
+            req.append(rq.to_user)   
+        get_friends=user_prof.friends.all()
+        sh_friends=[]
+        for i in get_friends:
+            sh_friends.append(profile_details.objects.get(user=i))
         all_users=profile_details.objects.exclude(user=request.user)
-        return render(request,'users.html',{'users':all_users})
+        lst=list(all_users)
+        new_lst=[item for item in lst if item not in (req or sh_friends)]
+        return render(request,'users.html',{'users':new_lst})
     else:
         all_users=profile_details.objects.all()
         return render(request,'users.html',{'users':all_users})
+
+@csrf_exempt
+def Send_request(request,pid):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            from_user=profile_details.objects.get(user=request.user)
+            to_user=profile_details.objects.get(id=pid)
+            Friend_request,created=friend_request.objects.get_or_create(from_user=from_user, to_user=to_user)
+            return JsonResponse({'status':200,'message':'Success'})
+    else:
+        return JsonResponse({'status':400,'message':'Need to login First!!'})
+
+def show_requests(request):
+    if request.user.is_authenticated:
+        get_prof=profile_details.objects.get(user=request.user)
+        get_requests=friend_request.objects.filter(to_user=get_prof)
+        sent_request=friend_request.objects.filter(from_user=get_prof)
+        if len(get_requests)==0:
+            gtt=0
+        else:
+            gtt=1
+        if len(sent_request)==0:
+            stt=0
+        else:
+            stt=1
+        return render(request,'seerequest.html',{'requests':get_requests,'gtt':gtt,'stt':stt,'sreq':sent_request})
+    else:
+        messages.error(request,'You need to login first')
+        hk=1
+        return render(request,'Signup.html', {'hkss':hk})
+
+def my_friends(request):
+    if request.user.is_authenticated:
+        get_prof=profile_details.objects.get(user=request.user)
+        get_friends=get_prof.friends.all()
+        sh_friends=[]
+        for i in get_friends:
+            sh_friends.append(profile_details.objects.get(user=i))
+        return render(request,'friends.html',{'friends':sh_friends})
+    else:
+        messages.error(request,'You need to login first')
+        hk=1
+        return render(request,'Signup.html', {'hkss':hk})
+    
+@csrf_exempt
+def accept_request(request,pid):
+    if request.method=='POST':
+        id=pid
+        get_prof=profile_details.objects.get(user=request.user)
+        obj_frnd=friend_request.objects.get(id=id)
+        if(obj_frnd.to_user==get_prof):
+            obj_frnd.to_user.friends.add(obj_frnd.from_user.user)
+            obj_frnd.from_user.friends.add(obj_frnd.to_user.user)
+            obj_frnd.delete()
+            return JsonResponse({'status':200,'message':'Success'})
+        else:
+            return JsonResponse({'status':400,'message':'Invalid request !!'})
+
+@csrf_exempt
+def remove_request(request,pid):
+    if request.method=='POST':
+        get_req=friend_request.objects.get(id=pid)
+        if get_req is not None:
+            get_req.delete()
+            return JsonResponse({'status':200,'message':'Success'})
+        else:
+            return JsonResponse({'status':400,'message':'This requested has been accepted so to remove friend into friends section'})
+
+@csrf_exempt
+def remove_friend(request,pid):
+    if request.method=='POST':
+        user_prof=profile_details.objects.get(user=request.user)
+        frnd_prf=profile_details.objects.get(id=pid)
+        user_prof.friends.remove(frnd_prf.user)
+        frnd_prf.friends.remove(user_prof.user)
+        return JsonResponse({'status':200,'message':'Success'})
+    else:
+        return JsonResponse({'status':400,'message':'Invalid access!!'})
+
+@csrf_exempt
+def withdraw_request(request,pid):
+    if request.method=='POST':
+        get_prof=profile_details.objects.get(id=pid)
+        get_prof1=profile_details.objects.get(user=request.user)
+        frnd_req=friend_request.objects.get(from_user=get_prof1,to_user=get_prof)
+        if frnd_req is not None:
+            frnd_req.delete()
+            return JsonResponse({'status':200,'message':'Success'})
+        else:
+            return JsonResponse({'status':400,'message':'Request not found!!'})
+    else:
+        return JsonResponse({'status':400,'message':'Invalid request!!'})
+        
+
+def show_groups(request):
+    if request.user.is_authenticated:
+        get_prof=profile_details.objects.get(user=request.user)
+        get_groups=Chat_Groups.objects.all()
+        user_groups=Chat_Groups.objects.filter(user=get_prof)
+        all_grp=list(get_groups)
+        user_grp=list(user_groups)
+        show_grp=[item for item in all_grp if item not in user_grp]
+        return render(request,'show_groups.html',{'groups':show_grp})
+
+def create_group(request):
+    if request.user.is_authenticated:
+        return render(request,'create_group.html')
+    else:
+        return redirect('/')
+
+def done_group(request):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            name=request.POST['gname']
+            check1=request.POST.get('private',None)
+            check2=request.POST.get('Public',None)
+            get_po=profile_details.objects.get(user=request.user)
+            if(name==''):
+                messages.error( request,'Please fill out group name')
+                return render(request,'create_group.html')
+            if len(request.FILES)==0:
+                messages.error( request,'Please upload a group profile pic ')
+                return render(request,'create_group.html')
+            try:
+                name_exist=Chat_Groups.objects.get(name=name)
+            except:
+                name_exist=None 
+            if(check1=='None' and check2=='None'):
+                messages.error( request,'Please Check ony one box !! ')
+                return render(request,'create_group.html')
+            if name_exist is not None:
+                messages.error( request,'Group name already exist!!')
+                return render(request,'create_group.html')
+            else:
+                if(check1=='private'):    
+                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,is_private=True,timestamp=datetime.datetime.now(timezone.utc))
+                    pos.user.add(get_po)
+                    pos.admin.add(get_po)
+                    pos.save() 
+                if(check2=='public' or (check1==None and check2==None)):
+                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,timestamp=datetime.datetime.now(timezone.utc))
+                    pos.user.add(get_po)
+                    pos.admin.add(get_po)
+                    pos.save()
+                user_groups=Chat_Groups.objects.filter(user=get_po) 
+                return render(request,'my_groups.html',{'groups':user_groups})
+
+
+def my_groups(request):
+    if request.user.is_authenticated:
+        get_prof=profile_details.objects.get(user=request.user)
+        user_groups=Chat_Groups.objects.filter(user=get_prof) 
+        return render(request,'my_groups.html',{'groups':user_groups})
+
+@csrf_exempt  
+def join_request(request,pid):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            get_porf=profile_details.objects.get(user=request.user)
+            get_grp=Chat_Groups.objects.get(id=pid)
+            if(get_grp.is_private==True):
+                pos=group_request.objects.create(group=get_grp,from_pro=get_porf)
+                lst=get_grp.admin.all()
+                for i in lst:
+                    pos.to_pro.add(i)
+                pos.save()
+                return JsonResponse({'status':200,'message':'Success'})
+            else:
+                get_grp.user.add(get_porf)
+                get_grp.members=get_grp.members+1 
+                get_grp.save() 
+                return JsonResponse({'status':200,'message':'Success'})
+        return JsonResponse({'status':400,'message':'Invalid request'})
+    return JsonResponse({'status':400,'message':'Need to login first'})
+
+
+def group_requests(request):
+    if request.user.is_authenticated:
+        get_prof=profile_details.objects.get(user=request.user)
+        get_requests=group_request.objects.filter(to_pro=get_prof) 
+        return render(request,'admin_requ.html',{'req':get_requests})
+
+
+@csrf_exempt
+def Add_ingroup(request,pid):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            get_req=group_request.objects.get(id=pid)
+            get_grp=Chat_Groups.objects.get(id=get_req.group.id)
+            get_prof=profile_details.objects.get(user=request.user)
+            if(get_prof in get_req.group.admin.all()):
+                get_req.group.user.add(get_req.from_pro)
+                get_grp.members=get_grp.members+1 
+                get_grp.save()
+                get_req.delete()
+                return JsonResponse({'status':200,'message':'Success'})
+            else:
+                return JsonResponse({'status':400,'message':'Invalid request'})
+        else:
+            return JsonResponse({'status':400,'message':'Invalid request'})
+    else:
+        return JsonResponse({'status':400,'message':'Need to login first!!'})
+
+@csrf_exempt
+def leave_group(request,pid):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            get_prog=profile_details.objects.get(user=request.user)
+            get_grp=Chat_Groups.objects.get(id=pid)
+            if(get_prog in get_grp.admin.all() and len(get_grp.admin.all())==1):
+                get_grp.delete()
+                return JsonResponse({'status':200,'message':'Success'})
+            elif(get_prog in get_grp.admin.all() and len(get_grp.admin.all())!=1):
+                get_grp.user.remove(get_prog)
+                get_grp.admin.remove(get_prog)
+                get_grp.save()
+                return JsonResponse({'status':200,'message':'Success'})
+            else:
+                get_grp.user.remove(get_prog)
+                get_grp.save()
+                return JsonResponse({'status':200,'message':'Success'})
+        else:
+            return JsonResponse({'status':400,'message':'Invalid access'})
+    else:
+        return JsonResponse({'status':400,'message':'Need to login to proceed!!'})
+                
+    

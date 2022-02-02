@@ -40,7 +40,7 @@
             <a href="/my_groups/">
                 <i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i>
                 <label style="cursor: pointer;">Groups</label>
-            </a>
+            </a>  
         </li>
         <li>
             <a href="/my_friends/">
@@ -73,7 +73,7 @@
     <div id="msbx" class="msgss" style="display: none;">
         <label class="msgs" id="msgss">nothing</label>
         <i id="msgp" onclick="closemsg(id)" class="fas fa-times" ></i>
-    </div>
+    </div> 
     {% for message in messages %}
     <div class="msgss">
     <label class="msgs">{{ message }}</label>
@@ -81,38 +81,45 @@
 </div>
     {% endfor %}
     <div class="other_options">
-        <a href="/show_requets/" class="same_as">Friend requests</a>
-        <a href="/my_friends/" class="same_as">My Friends</a>
+        <a href="/create_group/" class="same_as">Create Group</a>
+        <a href="/show_groups/" class="same_as">Discover Groups</a>
+        <a href="/group_requests/" class="same_as" style="display: block;margin: auto;margin-top: 20px !important;">Group Join requests</a>
     </div>
-    {% for user in users %}
-    <div class="post1">
-        <div class="prf"> 
-            <div class="p" style="background-image: url('{{ user.imgp.url }}');"></div>
-            <label id="nm">{{ user.fstname }} {{ user.secname }}</label>
-            <label id="tsm1">{{ user.u_nm }}</label>
-            <label id="tsm2">Joined Fbclone on: {{ user.timestamp }}</label>
+    <h3 style="text-align:center;margin-top:20px;font-size: 25px;">Your groups:</h3>
+    {% for grp in groups %}
+    <div class="post1" id="post{{ grp.id }}">
+        <div class="prf">
+            <div class="p" style="background-image: url('{{  grp.imgp.url }}');"></div>
+            <label id="nm" style="padding: 11px !important;">{{  grp.name }}</label>
+            <label id="tsm1">No. of members : {{ grp.members }}</label>
+            <label id="tsm2" style="padding-top: 20px !important;display: inline-block !important;padding-left: 6px !important;">Admin: {% for g in grp.admin.all %} {{ g.u_nm }}, {% endfor %}</label>
+            
         </div>
-        <div class="abt">
+        <div class="abt10">
         
-        <button id="{{ user.id }}" class="upls" style="margin-top: 40px;" onclick="Add_Friend(id)">Add Friend <i class="fas fa-people-arrows"></i></button>
-        <button id="sent{{ user.id }}" class="upls" style="margin-top: 40px;display: none;" onclick="withdraw_request(id)"> Withdraw --></i></button>
-
+        <a class="upls11" id="{{ grp.id }}" style="display: inline-block;margin: auto;margin-top: 50px;padding: 3px 20px !important;">Group_Chat <i class="fab fa-facebook-messenger"></i></a>
+        <button class="upls11" id="rem{{ grp.id }}" style="margin-top: 50px;" onclick="leave_group(id)">Leave Group</button>
+  
     </div>
     </div>
     {% endfor %}
+    
 </body>
 <script>
     click_no=1;
     kkkkk="{{ lnt }}"
-    dholaa="{{ le }}" 
-    d=-1
-    function closemsg(d){
-        if(d=='msgp1'){
-        document.getElementById('msbx1').style.display="none";
-        }
-        else{
-        document.getElementById('msbx').style.display="none";
+    dholaa="{{ le }}"
+    gtt="{{ gtt }}"
+    stt="{{ stt }}"
+    if(gtt=='0'){
+        document.getElementById('gtt').style.display='';
     }
+    if(stt=='0'){
+        document.getElementById('stt').style.display='';
+    }
+    d=-1
+    function closemsg(){
+    document.getElementById('msbx').style.display="none";
   }
     if(dholaa==1){ 
         ii=1;
@@ -147,11 +154,9 @@
             document.getElementById('dropdown-content').style.display='';
         }
     }
-
-    async function Add_Friend(id){
-        document.getElementById(`${id}`).style.display='none';
-        document.getElementById(`sent${id}`).style.display='';
-        let response = await fetch(`/Send_request/${id}/`, {
+    async function leave_group(id){
+        id1=id.slice(3)  
+        let response = await fetch(`/leave_group/${id1}/`, {
         credentials: 'include',
         method: 'POST',
         mode: 'same-origin',
@@ -165,42 +170,15 @@
         let json = await response.json();
         let message = json["message"];
         if(message=='Success'){
-            document.getElementById('msbx').style.display='block';
-            document.getElementById('msgss').innerHTML='Friend request send!!'
+            document.getElementById(`post${id1}`).style.display='none';
+            
         }
         else{
             document.getElementById('msbx').style.display='block';
             document.getElementById('msgss').innerHTML=message;
         }
     }
-    else{
-        console.log('failed')
     }
-    }
-    async function withdraw_request(id){
-        id1=id.slice(4)
-        let response = await fetch(`/withdraw_request/${id1}/`, {
-        credentials: 'include',
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        
-    })
-    if(response.ok){
-        let json = await response.json();
-        let message = json["message"];
-        if(message=='Success'){
-        document.getElementById(`${id1}`).style.display='';
-        document.getElementById(`sent${id1}`).style.display='none';
-        }
-        else{
-            document.getElementById('msbx').style.display='block';
-            document.getElementById('msgss').innerHTML=message;
-        }
-    }}
 </script>
 </html>
 

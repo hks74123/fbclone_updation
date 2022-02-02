@@ -28,5 +28,20 @@ urlpatterns = [
     path('reset_done/<slug:pid>',views.reset_done),
     path('emaiverificaton/',views.emaiverificaton),
     path('verifymail',views.verifymail),
-    path('Friends/',views.friends)
+    path('Friends/',views.friends),
+    path('show_requets/',views.show_requests),
+    path('my_friends/',views.my_friends),
+    path('Send_request/<slug:pid>/',views.Send_request),
+    path('accept_request/<slug:pid>/',views.accept_request),
+    path('remove_request/<slug:pid>/',views.remove_request),
+    path('remove_friend/<slug:pid>/',views.remove_friend),
+    path('withdraw_request/<slug:pid>/',views.withdraw_request),
+    path('show_groups/',views.show_groups),
+    path('create_group/',views.create_group),
+    path('done_group/',views.done_group),
+    path('my_groups/',views.my_groups),
+    path('join_request/<slug:pid>/',views.join_request),
+    path('group_requests/',views.group_requests),
+    path('Add_ingroup/<slug:pid>/',views.Add_ingroup),
+    path('leave_group/<slug:pid>/',views.leave_group)
 ]

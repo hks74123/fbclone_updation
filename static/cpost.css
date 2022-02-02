@@ -66,6 +66,29 @@ img{
     border-radius: 5px;
     padding-left: 5%;
 }
+.same_as{
+    display: inline-block;
+    width: 200px;
+    background-color: #1b9bff; 
+    color: white;
+    font-size: 19px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    outline: none;
+    margin-left: 4px;
+}
+.same_as:hover{
+    text-align: center;
+    background-color: white;
+    border: 1px solid #1b9bff;
+    color: black;
+    margin-left: 6px;
+}
+.other_options{
+    width: 420px;
+    margin: auto;
+    margin-top: 30px;
+}
 .lin{
     width: 100%;
     margin: auto;
@@ -140,6 +163,11 @@ margin-bottom: 5px;
 }
 .abt{
     margin-top: 18px;
+   
+}
+.abt11{
+    margin-top: 18px;
+    text-align: center;
 }
 #abtt{
     padding-left: 12px;
@@ -181,6 +209,10 @@ margin-bottom: 5px;
   #upload-name:focus, #upload-button:focus{
     outline:none;
   }
+  .abt1{
+    margin-top: 18px;
+    text-align: center;
+}
   #upls{
     display: block;
     width: 35%; 
@@ -194,6 +226,54 @@ margin-bottom: 5px;
     cursor:pointer;
     border-radius: 8px;
     margin-bottom: 30px;
+  }
+  .upls{
+    display: block;
+    width: 35%; 
+    height:28px;
+    margin: auto;
+    font-size: 17px;
+    padding:0 20px;
+    border:none;
+    background:#2077C9;
+    color:white;
+    cursor:pointer;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  #upls10,#upls11{
+    display: inline-block;
+    width: 35%; 
+    height:28px;
+    margin: auto;
+    font-size: 17px;
+    padding:0 20px;
+    border:none;
+    background:#2077C9;
+    color:white;
+    cursor:pointer;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .upls10,.upls11{
+    display: inline-block;
+    width: 35%; 
+    height:28px;
+    margin: auto;
+    font-size: 17px;
+    padding:0 20px;
+    border:none;
+    background:#2077C9;
+    color:white;
+    cursor:pointer;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  #upls10:hover,#upls11:hover{
+    background: #2077C9;
+  }
+  .upls10:hover,.upls11:hover{
+    background: #2077C9;
   }
   @media(max-width:500px){
       .post{

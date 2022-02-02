@@ -1,3 +1,5 @@
+from pyexpat import model
+from sqlite3 import Timestamp
 from django.db import models
 
 # Create your models here.
@@ -35,6 +37,7 @@ class profile_details(models.Model):
     unicode = models.CharField(max_length=100,null=True)
     timestamp = models.DateTimeField(null=True)
     verified = models.BooleanField(default=False)
+    friends=models.ManyToManyField(User,related_name='Friends',blank=True)
 
 class item(models.Model): 
     username=models.CharField(max_length=150)
@@ -78,3 +81,35 @@ class comment(models.Model):
         return '%s - %s' % (self.pst.username,self.pst.time_creat)
 
 
+class friend_request(models.Model):
+    from_user=models.OneToOneField(profile_details,related_name='from_user',on_delete=models.CASCADE)
+    to_user=models.OneToOneField(profile_details,related_name='to_user',on_delete=models.CASCADE)
+
+class Chat_Groups(models.Model):
+    imgp=models.FileField(upload_to='imgs',default='default.jpg', null=True,blank=True) 
+    name=models.CharField(max_length=50)
+    members=models.IntegerField()
+    user=models.ManyToManyField(profile_details)
+    admin=models.ManyToManyField(profile_details,related_name='admin',blank=True)
+    is_private = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(null=True)
+    
+    def __str__(self):
+        return(self.name)
+
+class Chat(models.Model):
+    user=models.ForeignKey(profile_details,on_delete=models.CASCADE)
+    group=models.ForeignKey(Chat_Groups,on_delete=models.CASCADE)
+    message=models.CharField(max_length=200)
+    timestamp=models.DateTimeField(null=True)
+
+    def __str__(self):
+        return(self.message)
+
+class group_request(models.Model):
+    group=models.OneToOneField(Chat_Groups,related_name='group',on_delete=models.CASCADE)
+    from_pro=models.OneToOneField(profile_details,related_name='from_pro',on_delete=models.CASCADE,null=True)
+    to_pro=models.ManyToManyField(profile_details,related_name='to_pro')
+
+    def __str__(self):
+        return(self.group.name)

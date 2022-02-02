@@ -20,7 +20,7 @@
         <ul>
           <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
               <label style="cursor: pointer;">Home</label></a></li>
-          <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+          <li><a href="Friends/"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
           <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
           <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
           </ul>
@@ -50,5 +50,15 @@
   function closemsg(){
     document.getElementById('msbx').style.display="none";
   }
+  click_no=1;
+  function showprof(){
+        click_no=click_no+1;
+        if(click_no%2==0){
+            document.getElementById('dropdown-content').style.display='block';
+        } 
+        else{
+            document.getElementById('dropdown-content').style.display='';
+        }
+    }
 </script>
 </html>

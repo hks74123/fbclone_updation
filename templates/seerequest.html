@@ -73,7 +73,7 @@
     <div id="msbx" class="msgss" style="display: none;">
         <label class="msgs" id="msgss">nothing</label>
         <i id="msgp" onclick="closemsg(id)" class="fas fa-times" ></i>
-    </div>
+    </div> 
     {% for message in messages %}
     <div class="msgss">
     <label class="msgs">{{ message }}</label>
@@ -81,21 +81,41 @@
 </div>
     {% endfor %}
     <div class="other_options">
-        <a href="/show_requets/" class="same_as">Friend requests</a>
         <a href="/my_friends/" class="same_as">My Friends</a>
+        <a href="/Friends/" class="same_as">Find Friends</a>
     </div>
-    {% for user in users %}
-    <div class="post1">
+    <h3 style="text-align:center;margin-top:20px;font-size: 25px;">Recieved Requests:</h3>
+    <p id="gtt" style="display: none;text-align: center;margin-top: 10px;">You haven't recieved any requests --</p>
+    {% for req in requests %}
+    <div class="post1" id="post{{ req.id }}">
         <div class="prf"> 
-            <div class="p" style="background-image: url('{{ user.imgp.url }}');"></div>
-            <label id="nm">{{ user.fstname }} {{ user.secname }}</label>
-            <label id="tsm1">{{ user.u_nm }}</label>
-            <label id="tsm2">Joined Fbclone on: {{ user.timestamp }}</label>
+            <div class="p" style="background-image: url('{{  req.from_user.imgp.url }}');"></div>
+            <label id="nm">{{ req.from_user.fstname }} {{ req.from_user.secname }}</label>
+            <label id="tsm1">{{ req.from_user.u_nm }}</label>
+            <label id="tsm2">Joined Fbclone on: {{ req.from_user.timestamp }}</label>
         </div>
-        <div class="abt">
+        <div class="abt10">
         
-        <button id="{{ user.id }}" class="upls" style="margin-top: 40px;" onclick="Add_Friend(id)">Add Friend <i class="fas fa-people-arrows"></i></button>
-        <button id="sent{{ user.id }}" class="upls" style="margin-top: 40px;display: none;" onclick="withdraw_request(id)"> Withdraw --></i></button>
+        <button class="upls11" id="{{ req.id }}" style="margin-top: 40px;" onclick="Accept_request(id,'{{ req.from_user.id }}')">Accept<i class="fas fa-people-arrows"></i></button>
+        <button class="upls10" id="rem{{ req.id }}" style="margin-top: 40px;" onclick="remove_request(id)">Remove<i class="fas fa-people-arrows"></i></button>
+        <button class="upls10" id="remf{{ req.from_user.id }}" style="margin-top: 40px; display: none;" onclick="remove_friend(id,'{{ req.id }}')">Remove Friend </button>
+  
+    </div>
+    </div>
+    {% endfor %}
+    <h3 style="text-align: center;margin-top: 15px;font-size: 25px;">Sent Requests:</h3>
+    <p id="stt" style="display: none;text-align: center;margin-top: 10px;">You haven't send any request--</p>
+    {% for req in sreq %}
+    <div class="post1" id="post{{ req.id }}">
+        <div class="prf"> 
+            <div class="p" style="background-image: url('{{  req.to_user.imgp.url }}');"></div>
+            <label id="nm">{{ req.to_user.fstname }} {{ req.to_user.secname }}</label>
+            <label id="tsm1">{{ req.to_user.u_nm }}</label>
+            <label id="tsm2">Joined Fbclone on: {{ req.to_user.timestamp }}</label>
+        </div>
+        <div class="abt10">
+        
+        <button class="upls11" id="re{{ req.id }}" style="margin-top: 40px;" onclick="remove_request(id)">Withdraw<i class="fas fa-people-arrows"></i></button>
 
     </div>
     </div>
@@ -104,15 +124,18 @@
 <script>
     click_no=1;
     kkkkk="{{ lnt }}"
-    dholaa="{{ le }}" 
-    d=-1
-    function closemsg(d){
-        if(d=='msgp1'){
-        document.getElementById('msbx1').style.display="none";
-        }
-        else{
-        document.getElementById('msbx').style.display="none";
+    dholaa="{{ le }}"
+    gtt="{{ gtt }}"
+    stt="{{ stt }}"
+    if(gtt=='0'){
+        document.getElementById('gtt').style.display='';
     }
+    if(stt=='0'){
+        document.getElementById('stt').style.display='';
+    }
+    d=-1
+    function closemsg(){
+    document.getElementById('msbx').style.display="none";
   }
     if(dholaa==1){ 
         ii=1;
@@ -147,11 +170,11 @@
             document.getElementById('dropdown-content').style.display='';
         }
     }
-
-    async function Add_Friend(id){
+    async function Accept_request(id,fid){
         document.getElementById(`${id}`).style.display='none';
-        document.getElementById(`sent${id}`).style.display='';
-        let response = await fetch(`/Send_request/${id}/`, {
+        document.getElementById(`rem${id}`).style.display='none';
+        document.getElementById(`remf${fid}`).style.display='';
+        let response = await fetch(`/accept_request/${id}/`, {
         credentials: 'include',
         method: 'POST',
         mode: 'same-origin',
@@ -166,20 +189,47 @@
         let message = json["message"];
         if(message=='Success'){
             document.getElementById('msbx').style.display='block';
-            document.getElementById('msgss').innerHTML='Friend request send!!'
+            document.getElementById('msgss').innerHTML='Friend request accepted!!'
         }
         else{
             document.getElementById('msbx').style.display='block';
             document.getElementById('msgss').innerHTML=message;
         }
+    }
+    }
+    async function remove_request(id){
+        id2=id.slice(0,2)
+        if(id2=='rem'){
+            id1=id.slice(3)
+        }  
+        else{
+            id1=id.slice(2)
+        }
+        console.log(id1)
+        let response = await fetch(`/remove_request/${id1}/`, {
+        credentials: 'include',
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        
+    })
+    if(response.ok){
+        let json = await response.json();
+        let message = json["message"];
+        document.getElementById(`post${id1}`).style.display='none';
+        document.getElementById('msbx').style.display='block';
+        document.getElementById('msgss').innerHTML='Friend request removed !!';
     }
     else{
-        console.log('failed')
+        document.getElementById('msbx').style.display='block';
+        document.getElementById('msgss').innerHTML=message; 
     }
-    }
-    async function withdraw_request(id){
-        id1=id.slice(4)
-        let response = await fetch(`/withdraw_request/${id1}/`, {
+}
+    async function remove_friend(id,dd){
+        let response = await fetch(`/remove_friend/${id}/`, {
         credentials: 'include',
         method: 'POST',
         mode: 'same-origin',
@@ -192,15 +242,15 @@
     if(response.ok){
         let json = await response.json();
         let message = json["message"];
-        if(message=='Success'){
-        document.getElementById(`${id1}`).style.display='';
-        document.getElementById(`sent${id1}`).style.display='none';
-        }
-        else{
-            document.getElementById('msbx').style.display='block';
-            document.getElementById('msgss').innerHTML=message;
-        }
-    }}
+        document.getElementById(`post${dd}`).style.display='none';
+        document.getElementById('msbx').style.display='block';
+        document.getElementById('msgss').innerHTML='Friend removed !!';
+    }
+    else{
+        document.getElementById('msbx').style.display='block';
+        document.getElementById('msgss').innerHTML=message; 
+    }
+}
 </script>
 </html>
 

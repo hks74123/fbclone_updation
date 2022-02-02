@@ -35,13 +35,13 @@
           </a>
       </li>
       <li>
-          <a href="#">
-              <i class="fas fa-bell" style="color: white !important;font-size: 25px !important;"></i>
-              <label style="cursor: pointer;">Notification</label>
-          </a>
+        <a href="/my_groups/">
+          <i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i>
+          <label style="cursor: pointer;">Groups</label>
+        </a>
       </li>
       <li>
-          <a href="#">
+          <a href="/my_friends/">
           <i class="fas fa-user-friends" style="color: white !important;font-size: 25px !important;"></i>
           <label style="cursor: pointer;">Friends</label>
           </a>
@@ -61,7 +61,7 @@
     <ul>
       <li><a href="/cm"><i class="fas fa-home" style="color: white !important;font-size: 22px !important;"></i>
           <label style="cursor: pointer;">Home</label></a></li>
-      <li><a href="#"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
+      <li><a href="/Friends/"><i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i><label style="cursor: pointer;">People</label></a></li>
       <li><a href="/sgn"><label style="cursor: pointer;">Sign up</label> <i class="fas fa-plus-circle" style="color: white !important;font-size: 22px !important;"></i></a></li>
       <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
       </ul>
@@ -113,6 +113,7 @@
       </div>
 </body>
 <script>
+  click_no=1;
   x=document.getElementById('first_name').value
   y=document.getElementById('last_name').value
   b= document.getElementById('fburl').value
@@ -154,5 +155,14 @@
     document.getElementById('fburl').disabled=false
     
   }
+  function showprof(){
+        click_no=click_no+1;
+        if(click_no%2==0){
+            document.getElementById('dropdown-content').style.display='block';
+        } 
+        else{
+            document.getElementById('dropdown-content').style.display='';
+        }
+    }
 </script>
 </html>
