@@ -93,6 +93,7 @@ class Chat_Groups(models.Model):
     admin=models.ManyToManyField(profile_details,related_name='admin',blank=True)
     is_private = models.BooleanField(default=False)
     timestamp = models.DateTimeField(null=True)
+    groupcode = models.CharField(max_length=100,null=True)
     
     def __str__(self):
         return(self.name)

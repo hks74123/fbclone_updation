@@ -1,0 +1,86 @@
+body{
+    background: #f0f2f5;
+}
+.chatbox{
+    width: 55%;
+    margin: auto;
+    margin-top: 50px;
+}
+.heads{
+    display: inline-block;
+    width: 80%;
+    font-size: 35px;
+    margin-left: 5%;
+}
+.chatpart{
+    display: block;
+width: 450px;
+max-height: 500px;
+margin-left: 40px;
+background-color: white;
+margin-top: 20px;
+overflow-y:auto;
+}
+.omesgg{
+    display: inline-block;
+    margin-top: 5px;
+    max-width: 65%;
+    margin-left: 5px;
+    background-color: #007bff;      
+    color: white;
+    padding: 5px 5px;
+    border-radius: 4px;
+}
+.maingmsg{
+    margin-top: 6px;
+}
+.usmaingmsg{
+    margin-top: 6px;
+    text-align: right;
+}
+.gobck:hover{
+    background-color: #f0f2f5;
+    color: black;
+}
+.name:hover{
+    background-color: #f0f2f5;
+    color: #007bff;
+}
+.usmesgg{
+    display: inline-block;
+    margin-top: 5px;
+    max-width: 65%;
+    background-color: #007bff;      
+    color: white;
+    padding: 5px 5px;
+    border-radius: 4px;
+    margin-right: 5px;
+    text-align: left;
+}
+.typebrd{
+    display: inline-block;
+width: 350px;
+margin-left: 40px;
+outline: none;
+font-size: 15px;
+height: 20px;
+}
+.mssend{
+    display: inline-block;
+    width: 90px;
+    outline: none;
+font-size: 16px;
+height: 25px;
+background: #007bff;
+border-radius: 5px;
+color: white;
+cursor: pointer;
+}
+.mssend:hover{
+    border: 1px solid black;
+    background: white;
+    color: black;
+}
+.fname{
+    display: block;font-size: small;
+}

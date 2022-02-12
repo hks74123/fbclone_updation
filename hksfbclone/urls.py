@@ -43,5 +43,7 @@ urlpatterns = [
     path('join_request/<slug:pid>/',views.join_request),
     path('group_requests/',views.group_requests),
     path('Add_ingroup/<slug:pid>/',views.Add_ingroup),
-    path('leave_group/<slug:pid>/',views.leave_group)
+    path('leave_group/<slug:pid>/',views.leave_group),
+    path('group_chat/<slug:pid>/',views.group_chat),
+    path('group_details/<slug:pid>/',views.group_details)
 ]

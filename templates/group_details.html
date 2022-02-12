@@ -69,22 +69,36 @@
             <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
             </ul>
         {% endif %}
-    </nav>  
+    </nav>
     <div id="msbx" class="msgss" style="display: none;">
         <label class="msgs" id="msgss">nothing</label>
         <i id="msgp" onclick="closemsg(id)" class="fas fa-times" ></i>
-    </div> 
+    </div>
     {% for message in messages %}
     <div class="msgss">
     <label class="msgs">{{ message }}</label>
     <i id="msgp" class="fas fa-times" ></i>
 </div>
     {% endfor %}
-    <div class="other_options">
-        <a href="/show_requets/" class="same_as">Friend requests</a>
-        <a href="/Friends/" class="same_as">Find Friends</a>
+    <h3 style="text-align: center;margin-top: 10px;">Members in Your Group</h3>
+    {% for u in us %}
+    <div class="post1" id="post{{ user.id }}">
+        <div class="prf"> 
+            <div class="p" style="background-image: url('{{ u.imgp.url }}');"></div>
+            <label id="nm">{{ u.fstname }} {{ u.secname }}</label>
+            <label id="tsm1">{{ u.u_nm }}</label>
+            <label id="tsm2">Joined Fbclone on: {{ u.timestamp }}</label>
+        </div>
+        <div class="abt">
+        
+        <button class="upls" style="margin-top: 40px;" id="{{ u.id }}" >You {{ get_prf.friends.all }}</button>
+
     </div>
-    {% for user in friends %}
+    </div>
+    {% endfor %}
+    {% for user in users %}
+    
+    {% if request.user in user.friends.all %}
     <div class="post1" id="post{{ user.id }}">
         <div class="prf"> 
             <div class="p" style="background-image: url('{{ user.imgp.url }}');"></div>
@@ -94,10 +108,26 @@
         </div>
         <div class="abt">
         
-        <button class="upls" style="margin-top: 40px;" id="{{ user.id }}" onclick="remove_friend(id)">Remove Friend </button>
+        <button class="upls" style="margin-top: 40px;" id="{{ user.id }}" >Your Friend</button>
 
     </div>
     </div>
+    {% else %}
+    <div class="post1" id="post{{ user.id }}">
+        <div class="prf"> 
+            <div class="p" style="background-image: url('{{ user.imgp.url }}');"></div>
+            <label id="nm">{{ user.fstname }} {{ user.secname }}</label>
+            <label id="tsm1">{{ user.u_nm }}</label>
+            <label id="tsm2">Joined Fbclone on: {{ user.timestamp }}</label>
+        </div>
+        <div class="abt">
+        
+        <button id="{{ user.id }}" class="upls" style="margin-top: 40px;" onclick="Add_Friend(id)">Add Friend <i class="fas fa-people-arrows"></i></button>
+        <button id="sent{{ user.id }}" class="upls" style="margin-top: 40px;display: none;" onclick="withdraw_request(id)"> Withdraw --></i></button>
+
+    </div>
+    </div>
+    {% endif %}
     {% endfor %}
 </body>
 <script>
@@ -105,8 +135,13 @@
     kkkkk="{{ lnt }}"
     dholaa="{{ le }}" 
     d=-1
-    function closemsg(){
-    document.getElementById('msbx').style.display="none";
+    function closemsg(d){
+        if(d=='msgp1'){
+        document.getElementById('msbx1').style.display="none";
+        }
+        else{
+        document.getElementById('msbx').style.display="none";
+    }
   }
     if(dholaa==1){ 
         ii=1;
@@ -141,8 +176,11 @@
             document.getElementById('dropdown-content').style.display='';
         }
     }
-    async function remove_friend(id){
-        let response = await fetch(`/remove_friend/${id}/`, {
+
+    async function Add_Friend(id){
+        document.getElementById(`${id}`).style.display='none';
+        document.getElementById(`sent${id}`).style.display='';
+        let response = await fetch(`/Send_request/${id}/`, {
         credentials: 'include',
         method: 'POST',
         mode: 'same-origin',
@@ -155,15 +193,43 @@
     if(response.ok){
         let json = await response.json();
         let message = json["message"];
-        document.getElementById(`post${id}`).style.display='none';
-        document.getElementById('msbx').style.display='block';
-        document.getElementById('msgss').innerHTML='Friend removed !!';
+        if(message=='Success'){
+            document.getElementById('msbx').style.display='block';
+            document.getElementById('msgss').innerHTML='Friend request send!!'
+        }
+        else{
+            document.getElementById('msbx').style.display='block';
+            document.getElementById('msgss').innerHTML=message;
+        }
     }
     else{
-        document.getElementById('msbx').style.display='block';
-        document.getElementById('msgss').innerHTML=message; 
+        console.log('failed')
     }
-}
+    }
+    async function withdraw_request(id){
+        id1=id.slice(4)
+        let response = await fetch(`/withdraw_request/${id1}/`, {
+        credentials: 'include',
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        
+    })
+    if(response.ok){
+        let json = await response.json();
+        let message = json["message"];
+        if(message=='Success'){
+        document.getElementById(`${id1}`).style.display='';
+        document.getElementById(`sent${id1}`).style.display='none';
+        }
+        else{
+            document.getElementById('msbx').style.display='block';
+            document.getElementById('msgss').innerHTML=message;
+        }
+    }}
 </script>
 </html>
 

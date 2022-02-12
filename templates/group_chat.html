@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fb Clone</title>
+    <title>Fb lone</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'navbar.css' %}"> 
-    <link rel="stylesheet" href="{% static 'cpost.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'chat_box.css' %}"> 
     
 </head>
 <body>
@@ -40,7 +39,7 @@
             <a href="/my_groups/">
                 <i class="fas fa-users" style="color: white !important;font-size: 22px !important;"></i>
                 <label style="cursor: pointer;">Groups</label>
-            </a>
+            </a>  
         </li>
         <li>
             <a href="/my_friends/">
@@ -69,7 +68,7 @@
             <li><a href="/lgn"><label style="cursor: pointer;">Login</label> <i class="fas fa-sign-in-alt" style="color: white !important;font-size: 22px !important;"></i></a></li>
             </ul>
         {% endif %}
-    </nav>  
+    </nav>
     <div id="msbx" class="msgss" style="display: none;">
         <label class="msgs" id="msgss">nothing</label>
         <i id="msgp" onclick="closemsg(id)" class="fas fa-times" ></i>
@@ -80,30 +79,113 @@
     <i id="msgp" class="fas fa-times" ></i>
 </div>
     {% endfor %}
-    <div class="other_options">
-        <a href="/show_requets/" class="same_as">Friend requests</a>
-        <a href="/Friends/" class="same_as">Find Friends</a>
-    </div>
-    {% for user in friends %}
-    <div class="post1" id="post{{ user.id }}">
-        <div class="prf"> 
-            <div class="p" style="background-image: url('{{ user.imgp.url }}');"></div>
-            <label id="nm">{{ user.fstname }} {{ user.secname }}</label>
-            <label id="tsm1">{{ user.u_nm }}</label>
-            <label id="tsm2">Joined Fbclone on: {{ user.timestamp }}</label>
+    <div class="chatbox">
+        <a style="cursor: pointer;" class="gobck" href="/my_groups/"><i class="fas fa-arrow-left" style="font-size: 25px ;"></i></a>
+        <div class="upper" style="display: inline;">
+        <div class="heads">
+            <img src="{{ im.url }}" width="50px" height="50px" style="border-radius: 50%;position: absolute;">
+            
+            <a class="name" style="padding-left: 62px;cursor: pointer;" href="/group_details/{{ pid }}">{{ nm }}
+                
+            </a>
         </div>
-        <div class="abt">
-        
-        <button class="upls" style="margin-top: 40px;" id="{{ user.id }}" onclick="remove_friend(id)">Remove Friend </button>
-
+        <div class="memberss" style="display: inline;
+        margin-left: 132px;">
+            <label>{% for m in mm %}{{ m.u_nm }},{% endfor %}...</label>
+        </div></div>
+        <div class="chatpart" id="chsts">
+            {% for c in ch %}
+            {% ifequal c.user.u_nm request.user.username %}
+            <div class="usmaingmsg">
+                <div class="usmesgg">
+                    <span style="display: block;font-size: small;" class="fname">{{ c.user.fstname }}</span>
+                    <span>{{ c.message }}</span>
+                </div>
+            </div>
+            {% else %}
+            <div class="maingmsg">
+            <div class="omesgg">
+                <span style="display: block;font-size: small;" class="fname">{{ c.user.fstname }}</span>
+                <span>{{ c.message }}</span>
+            </div></div>
+            {% endifequal %}
+            {% endfor %}
+        </div>
+        <div class="sending">
+        <input type="text" class="typebrd" id="room-name-input" placeholder="Type Here to send...">
+        <input type="button" class="mssend" id="room-name-submit" value="Send"></div>  
     </div>
-    </div>
-    {% endfor %}
+    {{ nm|json_script:"group-name" }}
+    {{ pid|json_script:"pid" }}
+    <script>
+        uss='{{ request.user.first_name }}'
+        const grp_name=JSON.parse (document.getElementById('group-name').textContent)
+        const pid=JSON.parse (document.getElementById('pid').textContent)
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+        let ws= new WebSocket('ws://'+window.location.host+'/'+'ws/sc/'+grp_name+'/'+pid+'/')
+            ws.onopen=function(){
+                console.log('websocket is open now..')
+                ws.send
+            }
+            ws.onmessage=function(event){ 
+                const data=JSON.parse(event.data)
+                name=data.unm
+                var ptag=document.createElement("div")
+                var ctag1=document.createElement("div")
+                var spn1=document.createElement("span")
+                var spn2=document.createElement("span")
+                if(name==uss){
+                    ptag.className='usmaingmsg'
+                    ctag1.className='usmesgg'
+                    spn1.className='fname'
+                }
+                else{
+                    ptag.className='maingmsg'
+                    ctag1.className='omesgg'
+                    spn1.className='fname'
+                }
+                spn1.innerHTML=data.unm
+                spn2.innerHTML=data.msg
+                ctag1.appendChild(spn1)
+                ctag1.appendChild(spn2)
+                ptag.appendChild(ctag1)
+                document.getElementById('chsts').appendChild(ptag)
+                var objDiv2 = document.getElementById("chsts");
+                objDiv2.scrollTop = objDiv.scrollHeight;
+            }
+            ws.onclose=function(event){
+                console.log('server disconnected...')
+            } 
+        document.querySelector('#room-name-submit').onclick = function(e) {  
+            const messagedom=document.getElementById('room-name-input')                
+            const msg=messagedom.value
+            if(msg!=''){
+            ws.send(JSON.stringify({
+                'msg':msg
+            }))
+            messagedom.value=''} 
+        };
+    </script>
 </body>
 <script>
+    var objDiv = document.getElementById("chsts");
+    objDiv.scrollTop = objDiv.scrollHeight;    
     click_no=1;
     kkkkk="{{ lnt }}"
-    dholaa="{{ le }}" 
+    dholaa="{{ le }}"
+    gtt="{{ gtt }}"
+    stt="{{ stt }}"
+    if(gtt=='0'){
+        document.getElementById('gtt').style.display='';
+    }
+    if(stt=='0'){
+        document.getElementById('stt').style.display='';
+    }
     d=-1
     function closemsg(){
     document.getElementById('msbx').style.display="none";
@@ -141,29 +223,7 @@
             document.getElementById('dropdown-content').style.display='';
         }
     }
-    async function remove_friend(id){
-        let response = await fetch(`/remove_friend/${id}/`, {
-        credentials: 'include',
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        
-    })
-    if(response.ok){
-        let json = await response.json();
-        let message = json["message"];
-        document.getElementById(`post${id}`).style.display='none';
-        document.getElementById('msbx').style.display='block';
-        document.getElementById('msgss').innerHTML='Friend removed !!';
-    }
-    else{
-        document.getElementById('msbx').style.display='block';
-        document.getElementById('msgss').innerHTML=message; 
-    }
-}
+
 </script>
 </html>
 

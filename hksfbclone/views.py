@@ -576,6 +576,7 @@ def done_group(request):
             check1=request.POST.get('private',None)
             check2=request.POST.get('Public',None)
             get_po=profile_details.objects.get(user=request.user)
+            personalcode = generate_random_unicode()
             if(name==''):
                 messages.error( request,'Please fill out group name')
                 return render(request,'create_group.html')
@@ -594,12 +595,12 @@ def done_group(request):
                 return render(request,'create_group.html')
             else:
                 if(check1=='private'):    
-                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,is_private=True,timestamp=datetime.datetime.now(timezone.utc))
+                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,is_private=True,timestamp=datetime.datetime.now(timezone.utc),groupcode=personalcode)
                     pos.user.add(get_po)
                     pos.admin.add(get_po)
                     pos.save() 
                 if(check2=='public' or (check1==None and check2==None)):
-                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,timestamp=datetime.datetime.now(timezone.utc))
+                    pos=Chat_Groups.objects.create(imgp=request.FILES['imgle'],name=name,members=1,timestamp=datetime.datetime.now(timezone.utc),groupcode=personalcode)
                     pos.user.add(get_po)
                     pos.admin.add(get_po)
                     pos.save()
@@ -684,5 +685,59 @@ def leave_group(request,pid):
             return JsonResponse({'status':400,'message':'Invalid access'})
     else:
         return JsonResponse({'status':400,'message':'Need to login to proceed!!'})
+
+
+def group_chat(request,pid):
+    if request.user.is_authenticated:
+        try:
+            get_grp=Chat_Groups.objects.get(groupcode=pid)
+        except:
+            get_grp=None
+        if(get_grp is not None):
+            nm=get_grp.name
+            im=get_grp.imgp
+            shus=[]
+            for i in get_grp.admin.all():
+                if(len(shus)<4):
+                    shus.append(i)
+                else:
+                    break
+            if(len(shus)<4):
+                for i in get_grp.user.all():
+                    if(len(shus)<4 and i not in shus):
+                        shus.append(i)
+                    else:
+                        break
+            ch=Chat.objects.filter(group=get_grp)
+            return render(request,'group_chat.html',{'nm':nm,'mm':shus,'ch':ch,'pid':pid,'im':im})
+        else:
+            messages.error(request,'invalid request')
+            return redirect('/')
+    else:
+        return redirect('/')
+
+def group_details(request,pid):
+    if request.user.is_authenticated:
+        get_prf=profile_details.objects.get(user=request.user)
+        try:
+            get_grp=Chat_Groups.objects.get(groupcode=pid)
+        except:
+            get_grp=None
+        if(get_grp is not None):
+            mems=[]
+            uss=[]
+            for i in get_grp.user.all():
+                if(i!=get_prf):
+                    mems.append(i)
+                else:
+                    uss.append(i)
+            return render(request,'group_details.html',{'users':mems,'us':uss,'pid':pid})
+        else:
+            messages.error(request,'invalid request')
+            return redirect('/')
+    else:
+        return redirect('/')
+
+        
                 
     
