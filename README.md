@@ -1,13 +1,13 @@
 # hks-fbclone
 hksfbclone is a social media platform on which user can share his experiences via post he can like or comments on the posts and can make friends and groups of friends and can chat in the groups.
 
-# Registartion and authetication
+# Registartion and authentication
 
 User can simply resgister by filling up the valid details and will get verifiction mail after verifying user can login and  acess his account.
 
 ![image](https://user-images.githubusercontent.com/56163188/154893197-0fd6eb53-e467-431b-9c1b-247584a6900f.png)
    
-# Exploring anc creating posts
+# Exploring and creating posts
    
 User can see people's created posts and can like anc comments on post and also can create a post.
 
