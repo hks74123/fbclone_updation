@@ -1,1 +1,2 @@
-web: gunicorn fbclone.wsgi --log-file -
+release:python manage.py migrate
+web: gunicorn fbclone.asgi:application --log-file -
