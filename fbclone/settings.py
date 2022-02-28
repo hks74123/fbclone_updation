@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-s9ur5z0w#&_c6@(ybcb1s$5(!p9y^6eto((4-w#%@o^t$=_t@z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False             
 
-ALLOWED_HOSTS = ['127.0.0.1','hks-fbclone.herokuapp.com','hks-facebook-clone.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','hks-fbclone.herokuapp.com','hks-facebook-clone.herokuapp.com','hksfacebook-clone.herokuapp.com']
 
 
 # Application definition
