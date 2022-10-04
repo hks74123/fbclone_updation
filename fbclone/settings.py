@@ -43,10 +43,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fbclone.urls'
 
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR,'templates/hksfbclone'),
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
